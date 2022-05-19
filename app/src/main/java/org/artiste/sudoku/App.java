@@ -3,12 +3,12 @@
  */
 package org.artiste.sudoku;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import org.artiste.sudoku.model.Sudoku;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
-    }
+public class App {
+
+  public static void main(String[] args) {
+    Sudoku sudoku = new Sudoku();
+    System.out.print(sudoku);
+  }
 }

@@ -3,12 +3,13 @@
  */
 package org.artiste.sudoku;
 
-import org.artiste.sudoku.model.Sudoku;
+import org.artiste.sudoku.generator.Generator;
+import org.artiste.sudoku.generator.SmartGenerator;
 
 public class App {
 
   public static void main(String[] args) {
-    Sudoku sudoku = new Sudoku();
-    System.out.print(sudoku);
+    Generator generator = new SmartGenerator();
+    System.out.print(generator.generate());
   }
 }

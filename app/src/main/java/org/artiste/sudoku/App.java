@@ -10,6 +10,5 @@ public class App {
 
   public static void main(String[] args) {
     Generator generator = new SmartGenerator();
-    System.out.print(generator.generate());
   }
 }

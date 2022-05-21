@@ -28,10 +28,13 @@ application {
 
 pitest {
     junit5PluginVersion = '0.15'
-    targetClasses = ['org.artiste.sudoku.generator.*']
+    targetClasses = ['org.artiste.sudoku.*']
+    threads = 4
     enableDefaultIncrementalAnalysis = true
-    outputFormats = ['CSV','HTML']
+    outputFormats = ['HTML']
     timeoutConstInMillis = 1000
     jvmArgs = ['-Xmx2048m','-Xms1024m']
     mutators = ['ALL']
+    excludedClasses = ['org.artiste.sudoku.App']
+    mutationThreshold = 70
 }

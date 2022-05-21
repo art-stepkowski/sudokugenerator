@@ -1,7 +1,10 @@
 package org.artiste.sudoku.generator;
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.function.IntFunction;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -9,15 +12,14 @@ import java.util.stream.IntStream;
 import org.artiste.sudoku.model.Sudoku;
 
 public class SmartGenerator implements Generator {
-
-  private static final Random RANDOM = new Random();
   private static final UnaryOperator<int[]> SHIFT_3 = SmartGenerator::shiftValuesBy3;
   private static final UnaryOperator<int[]> SHIFT_1 = SmartGenerator::shiftValuesBy1;
   private static final IntFunction<UnaryOperator<int[]>> SHIFT_FACTORY = i -> i == 3 || i == 6 ? SHIFT_1 : SHIFT_3;
 
   public Sudoku generate() {
     Sudoku ret = new Sudoku();
-    fillFirstRow(ret);
+    // fill first row
+    ret.fillRow(0, RandomRowGenerator.generate());
     fillOtherRows(ret);
     shuffleRowsAndColumns(ret);
     return ret;
@@ -69,24 +71,5 @@ public class SmartGenerator implements Generator {
     newRow[1] = row[7];
     newRow[2] = row[8];
     return newRow;
-  }
-
-  private void fillFirstRow(Sudoku sudoku) {
-    int[] values = createRandomRow();
-    sudoku.fillRow(0, values);
-  }
-
-  private int[] createRandomRow() {
-    List<Integer> ret = new ArrayList<>();
-    for (int i = 0; i < 9; i++) {
-      int value;
-      do {
-        value = RANDOM.nextInt(9) + 1;
-      } while (ret.contains(value));
-      ret.add(value);
-    }
-    return ret.stream()
-              .mapToInt(Integer::intValue)
-              .toArray();
   }
 }

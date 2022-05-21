@@ -1,4 +1,3 @@
-
 plugins {
     id 'application'
     id "io.freefair.lombok" version "6.4.3"
@@ -33,8 +32,8 @@ pitest {
     enableDefaultIncrementalAnalysis = true
     outputFormats = ['HTML']
     timeoutConstInMillis = 1000
-    jvmArgs = ['-Xmx2048m','-Xms1024m']
+    jvmArgs = ['-Xmx2048m', '-Xms1024m']
     mutators = ['ALL']
-    excludedClasses = ['org.artiste.sudoku.App']
+    excludedClasses = ['org.artiste.sudoku.App', 'org.artiste.sudoku.model.CellCoordinates']
     mutationThreshold = 70
 }

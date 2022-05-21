@@ -76,4 +76,16 @@ class SudokuTest {
     assertThat(s).isEqualTo(
         "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]");
   }
+
+  @Test
+  void should_find_first_empty_cell() {
+    Sudoku sudoku = new Sudoku();
+    sudoku.fillRow(0, new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9});
+    sudoku.fillRow(1, new int[]{4, 5, 6, 7, 8, 9, 1, 2, 3});
+    sudoku.fillRow(2, new int[]{7, 8, 9, 1, 0, 3, 4, 5, 6});
+    CellCoordinates firstEmptyCell = sudoku.findFirstEmptyCell();
+    assertThat(firstEmptyCell).hasFieldOrPropertyWithValue("row", 2)
+                              .hasFieldOrPropertyWithValue("column", 4);
+
+  }
 }

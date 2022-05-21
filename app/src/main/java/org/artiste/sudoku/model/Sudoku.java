@@ -1,6 +1,7 @@
 package org.artiste.sudoku.model;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Sudoku {
   private static final Map<Integer, List<Integer>> BOXES_START_CELLS = new HashMap<>();
@@ -18,29 +19,11 @@ public class Sudoku {
     BOXES_START_CELLS.put(8, List.of(6, 6));
   }
 
-  public Sudoku() {
-    for (int i = 0; i < 9; i++) {
-      for (int j = 0; j < 9; j++) {
-        cells[i][j] = 0;
-      }
-    }
-  }
-
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < 9; i++) {
-      for (int j = 0; j < 9; j++) {
-        sb.append(cells[i][j]);
-        if (j != 8) {
-          sb.append(",");
-        }
-      }
-      if (i != 8) {
-        sb.append("\n");
-      }
-    }
-    return sb.toString();
+    return Arrays.stream(cells)
+                 .map(Arrays::toString)
+                 .collect(Collectors.joining("\n"));
   }
 
   public void fillRow(int rowIndex,
@@ -48,18 +31,18 @@ public class Sudoku {
     cells[rowIndex] = values;
   }
 
-  public int[] getRow(int rowIndex) {
+  public int[] getRow(final int rowIndex) {
     return cells[rowIndex];
   }
 
-  public int[] getColumn(int colIndex) {
+  public int[] getColumn(final int colIndex) {
     return Arrays.stream(cells)
                  .mapToInt(arr -> arr[colIndex])
                  .toArray();
   }
 
-  public Map<Integer, int[]> getRowsInRange(int firstRow,
-                                            int numberOfRows) {
+  public Map<Integer, int[]> getRowsInRange(final int firstRow,
+                                            final int numberOfRows) {
     Map<Integer, int[]> ret = new HashMap<>();
     int rowIndex = firstRow;
     for (int i = 0; i < numberOfRows; i++) {
@@ -68,8 +51,8 @@ public class Sudoku {
     return ret;
   }
 
-  public Map<Integer, int[]> getColumnsInRange(int firstColumn,
-                                               int numberOfColumns) {
+  public Map<Integer, int[]> getColumnsInRange(final int firstColumn,
+                                               final int numberOfColumns) {
     Map<Integer, int[]> ret = new HashMap<>();
     int colIndex = firstColumn;
     for (int i = 0; i < numberOfColumns; i++) {
@@ -78,14 +61,14 @@ public class Sudoku {
     return ret;
   }
 
-  public void fillColumn(int colIndex,
+  public void fillColumn(final int colIndex,
                          int[] values) {
     for (int i = 0; i < 9; i++) {
       cells[i][colIndex] = values[i];
     }
   }
 
-  public int[] getBox(int boxIndex) {
+  public int[] getBox(final int boxIndex) {
     List<Integer> ret = new ArrayList<>();
     List<Integer> boxStartCells = BOXES_START_CELLS.get(boxIndex);
     int startRow = boxStartCells.get(0);

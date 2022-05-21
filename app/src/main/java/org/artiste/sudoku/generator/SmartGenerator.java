@@ -10,9 +10,9 @@ import org.artiste.sudoku.model.Sudoku;
 
 public class SmartGenerator implements Generator {
 
-  private static final Random                            RANDOM        = new Random();
-  private static final UnaryOperator<int[]>              SHIFT_3       = SmartGenerator::shiftValuesBy3;
-  private static final UnaryOperator<int[]>              SHIFT_1       = SmartGenerator::shiftValuesBy1;
+  private static final Random RANDOM = new Random();
+  private static final UnaryOperator<int[]> SHIFT_3 = SmartGenerator::shiftValuesBy3;
+  private static final UnaryOperator<int[]> SHIFT_1 = SmartGenerator::shiftValuesBy1;
   private static final IntFunction<UnaryOperator<int[]>> SHIFT_FACTORY = i -> i == 3 || i == 6 ? SHIFT_1 : SHIFT_3;
 
   public Sudoku generate() {

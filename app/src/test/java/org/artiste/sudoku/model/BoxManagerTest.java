@@ -14,13 +14,13 @@ class BoxManagerTest {
   @ParameterizedTest
   @MethodSource("prepareDataForCheckingBoxNumber")
   void should_return_valid_box_numbers(int row, int column, int expectedBoxNumber) {
-    int boxNumber = BoxManager.findBoxNumber(row, column);
+    int boxNumber = BoxManager.findBoxIndex(row, column);
     assertThat(boxNumber).isEqualTo(expectedBoxNumber);
   }
 
   @Test
   void should_throw_exception() {
-    assertThrows(IndexOutOfBoundsException.class, () -> BoxManager.findBoxNumber(9, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> BoxManager.findBoxIndex(9, 1));
   }
 
   private static Stream<Arguments> prepareDataForCheckingBoxNumber() {

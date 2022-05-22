@@ -73,8 +73,7 @@ class SudokuTest {
   void should_return_proper_string() {
     Sudoku sudoku = new Sudoku();
     String s = sudoku.toString();
-    assertThat(s).isEqualTo(
-        "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]");
+    assertThat(s).isEqualTo("[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]\n" + "[0, 0, 0, 0, 0, 0, 0, 0, 0]");
   }
 
   @Test
@@ -86,6 +85,14 @@ class SudokuTest {
     CellCoordinates firstEmptyCell = sudoku.findFirstEmptyCell();
     assertThat(firstEmptyCell).hasFieldOrPropertyWithValue("row", 2)
                               .hasFieldOrPropertyWithValue("column", 4);
+  }
 
+  @Test
+  void should_prepare_sudoku_copy() {
+    Sudoku sudoku = new Sudoku();
+    sudoku.fillRow(0, new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9});
+    Sudoku newSudoku = new Sudoku(sudoku);
+    sudoku.fillRow(0, new int[]{1, 1, 1, 1, 1, 1, 1, 1, 1});
+    assertThat(newSudoku.getRow(0)).containsSequence(1, 2, 3, 4, 5, 6, 7, 8, 9);
   }
 }

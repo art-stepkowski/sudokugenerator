@@ -2,9 +2,17 @@ package org.artiste.sudoku.model;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class Sudoku {
   private final int[][] cells = new int[9][9];
+
+  public Sudoku(Sudoku fullSudoku) {
+    for (int i = 0; i < 9; i++) {
+      fillRow(i, fullSudoku.getRow(i));
+    }
+  }
 
   @Override
   public String toString() {
@@ -53,9 +61,10 @@ public class Sudoku {
 
   public int[] getBox(final int boxIndex) {
     List<Integer> ret = new ArrayList<>();
-    List<Integer> boxStartCells = BoxManager.BOXES_START_CELLS.get(boxIndex);
-    int startRow = boxStartCells.get(0);
-    int startColumn = boxStartCells.get(1);
+    CellCoordinates boxStartCell = BoxManager.getBoxesStartCells()
+                                             .get(boxIndex);
+    int startRow = boxStartCell.getRow();
+    int startColumn = boxStartCell.getColumn();
     for (int i = startRow; i < startRow + 3; i++) {
       for (int j = startColumn; j < startColumn + 3; j++) {
         ret.add(cells[i][j]);
@@ -79,5 +88,9 @@ public class Sudoku {
 
   public void fillCell(int row, int column, int i) {
     cells[row][column] = i;
+  }
+
+  public int getCellValue(CellCoordinates cellCoordinates) {
+    return cells[cellCoordinates.getRow()][cellCoordinates.getColumn()];
   }
 }

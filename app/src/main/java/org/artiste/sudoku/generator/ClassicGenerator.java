@@ -3,6 +3,7 @@ package org.artiste.sudoku.generator;
 import java.util.*;
 import org.artiste.sudoku.model.CellCoordinates;
 import org.artiste.sudoku.model.Sudoku;
+import org.artiste.sudoku.neighbours.NeighboursFinder;
 
 public class ClassicGenerator implements Generator {
   private static final Random RANDOM = new Random();
@@ -21,7 +22,7 @@ public class ClassicGenerator implements Generator {
     if (null == cellCoordinates) {
       return true;
     }
-    Set<Integer> neighbours = NeighboursFinder.findNeighbours(sudoku, cellCoordinates);
+    Set<Integer> neighbours = NeighboursFinder.findDistinctNeighbours(sudoku, cellCoordinates);
     while (true) {
       Set<Integer> usedNumbers = USED_NUMBERS.getOrDefault(cellCoordinates, Collections.emptySet());
       ArrayList<Integer> availableNumbers = new ArrayList<>(ALL_NUMBERS);

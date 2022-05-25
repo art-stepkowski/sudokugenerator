@@ -33,12 +33,9 @@ public class PuzzleGenerator {
   }
 
   private void randomIndexes(Set<Integer> indexes) {
-    if (indexes.size() >= 3) {
-      return;
-    }
     while (true) {
       indexes.add(RANDOM.nextInt(9));
-      if (indexes.size() == 3) {
+      if (indexes.size() >= 3) {
         return;
       }
     }

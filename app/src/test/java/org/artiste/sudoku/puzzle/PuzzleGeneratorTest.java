@@ -16,7 +16,8 @@ class PuzzleGeneratorTest {
     for (int i = 0; i < 9; i++) {
       int[] row = puzzle.getRow(i);
       assertThat(Arrays.stream(row)
-                       .filter(x -> x == 0)).hasSizeLessThan(4);
+                       .filter(x -> x == 0)).hasSizeLessThan(4)
+                                            .hasSizeGreaterThan(2);
     }
     for (int i = 0; i < 9; i++) {
       int[] col = puzzle.getColumn(i);

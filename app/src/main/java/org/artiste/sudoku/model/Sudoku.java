@@ -10,7 +10,9 @@ public class Sudoku {
 
   public Sudoku(Sudoku fullSudoku) {
     for (int i = 0; i < 9; i++) {
-      fillRow(i, fullSudoku.getRow(i));
+      for (int j = 0; j < 9; j++) {
+        fillCell(i, j, fullSudoku.cells[i][j]);
+      }
     }
   }
 
@@ -21,7 +23,8 @@ public class Sudoku {
                  .collect(Collectors.joining("\n"));
   }
 
-  public void fillRow(int rowIndex, int[] values) {
+  public void fillRow(int rowIndex,
+                      int[] values) {
     cells[rowIndex] = values;
   }
 
@@ -35,7 +38,8 @@ public class Sudoku {
                  .toArray();
   }
 
-  public Map<Integer, int[]> getRowsInRange(final int firstRow, final int numberOfRows) {
+  public Map<Integer, int[]> getRowsInRange(final int firstRow,
+                                            final int numberOfRows) {
     Map<Integer, int[]> ret = new HashMap<>();
     int rowIndex = firstRow;
     for (int i = 0; i < numberOfRows; i++) {
@@ -44,7 +48,8 @@ public class Sudoku {
     return ret;
   }
 
-  public Map<Integer, int[]> getColumnsInRange(final int firstColumn, final int numberOfColumns) {
+  public Map<Integer, int[]> getColumnsInRange(final int firstColumn,
+                                               final int numberOfColumns) {
     Map<Integer, int[]> ret = new HashMap<>();
     int colIndex = firstColumn;
     for (int i = 0; i < numberOfColumns; i++) {
@@ -53,7 +58,8 @@ public class Sudoku {
     return ret;
   }
 
-  public void fillColumn(final int colIndex, int[] values) {
+  public void fillColumn(final int colIndex,
+                         int[] values) {
     for (int i = 0; i < 9; i++) {
       cells[i][colIndex] = values[i];
     }
@@ -86,8 +92,15 @@ public class Sudoku {
     return null;
   }
 
-  public void fillCell(int row, int column, int i) {
-    cells[row][column] = i;
+  public void fillCell(int row,
+                       int column,
+                       int value) {
+    cells[row][column] = value;
+  }
+
+  public void fillCell(CellCoordinates coordinates,
+                       int value) {
+    fillCell(coordinates.getRow(), coordinates.getColumn(), value);
   }
 
   public int getCellValue(CellCoordinates cellCoordinates) {

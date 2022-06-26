@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import me.tongfei.progressbar.ProgressBar;
 import org.apache.commons.cli.*;
 import org.artiste.sudoku.generator.ClassicGenerator;
 import org.artiste.sudoku.generator.Generator;
@@ -37,13 +38,16 @@ public class App {
     PuzzleGenerator puzzleGenerator = new PuzzleGenerator();
     PuzzleValidator puzzleValidator = new PuzzleValidator();
     List<PuzzleGroup> ret = new ArrayList<>();
-    for (int i = 0; i < numberOfPuzzles; i++) {
-      Sudoku sudoku = generator.generate();
-      Sudoku puzzle = puzzleGenerator.generate(sudoku);
-      if (puzzleValidator.validate(sudoku, puzzle)) {
-        ret.add(new PuzzleGroup(sudoku, puzzle));
-      } else {
-        i--;
+    try (ProgressBar pb = new ProgressBar("Progress", 100)) {
+      for (int i = 0; i < numberOfPuzzles; i++) {
+        Sudoku sudoku = generator.generate();
+        Sudoku puzzle = puzzleGenerator.generate(sudoku);
+        if (puzzleValidator.validate(sudoku, puzzle)) {
+          ret.add(new PuzzleGroup(sudoku, puzzle));
+          pb.step();
+        } else {
+          i--;
+        }
       }
     }
     try (Writer writer = new FileWriter("app\\build\\puzzles.json")) {

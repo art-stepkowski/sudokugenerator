@@ -23,17 +23,21 @@ public class App {
     HelpFormatter helper = new HelpFormatter();
     try {
       cmd = parser.parse(options, args);
-      if (cmd.hasOption("n")) {
-        generatePuzzles(Integer.parseInt(cmd.getOptionValue("n")));
+      if (cmd.hasOption("n") && cmd.hasOption('l')) {
+        generatePuzzles(Integer.parseInt(cmd.getOptionValue("n")),
+                        cmd.getOptionValue("o"),
+                        Level.of(cmd.getOptionValue('l')));
       }
     } catch (ParseException e) {
       System.out.println(e.getMessage());
-      helper.printHelp("Usage:", options);
+      helper.printHelp("Options for sudoku generator", options);
       System.exit(0);
     }
   }
 
-  private static void generatePuzzles(int numberOfPuzzles) {
+  private static void generatePuzzles(int numberOfPuzzles,
+                                      String outputFileName,
+                                      Level level) {
     Generator generator = new ClassicGenerator();
     PuzzleGenerator puzzleGenerator = new PuzzleGenerator();
     PuzzleValidator puzzleValidator = new PuzzleValidator();
@@ -41,7 +45,7 @@ public class App {
     try (ProgressBar pb = new ProgressBar("Progress", 100)) {
       for (int i = 0; i < numberOfPuzzles; i++) {
         Sudoku sudoku = generator.generate();
-        Sudoku puzzle = puzzleGenerator.generate(sudoku);
+        Sudoku puzzle = puzzleGenerator.generate(sudoku, level);
         if (puzzleValidator.validate(sudoku, puzzle)) {
           ret.add(new PuzzleGroup(sudoku, puzzle));
           pb.step();
@@ -50,7 +54,10 @@ public class App {
         }
       }
     }
-    try (Writer writer = new FileWriter("app\\build\\puzzles.json")) {
+    if (null == outputFileName) {
+      outputFileName = "puzzles.json";
+    }
+    try (Writer writer = new FileWriter(outputFileName)) {
       new Gson().toJson(ret, writer);
     } catch (IOException e) {
       System.err.println(e.getMessage());

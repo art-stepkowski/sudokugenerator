@@ -12,7 +12,7 @@ class PuzzleGeneratorTest {
   @Test
   void should_prepare_puzzle_with_proper_number_of_empty_cells() {
     Sudoku sudoku = new SmartGenerator().generate();
-    Sudoku puzzle = new PuzzleGenerator().generate(sudoku);
+    Sudoku puzzle = new PuzzleGenerator().generate(sudoku, level);
     for (int i = 0; i < 9; i++) {
       int[] row = puzzle.getRow(i);
       assertThat(Arrays.stream(row)

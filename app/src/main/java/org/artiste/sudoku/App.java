@@ -42,6 +42,8 @@ public class App {
       Sudoku puzzle = puzzleGenerator.generate(sudoku);
       if (puzzleValidator.validate(sudoku, puzzle)) {
         ret.add(new PuzzleGroup(sudoku, puzzle));
+      } else {
+        i--;
       }
     }
     try (Writer writer = new FileWriter("app\\build\\puzzles.json")) {

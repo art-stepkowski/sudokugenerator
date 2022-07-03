@@ -1,9 +1,5 @@
 package org.artiste.sudoku;
 
-import com.google.gson.Gson;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import me.tongfei.progressbar.ProgressBar;
@@ -43,26 +39,19 @@ public class App {
     PuzzleValidator puzzleValidator = new PuzzleValidator();
     List<PuzzleGroup> ret = new ArrayList<>();
     try (ProgressBar pb = new ProgressBar("Progress", 100)) {
-      for (int i = 0; i < numberOfPuzzles; i++) {
+      int i = 0;
+      while (i < numberOfPuzzles) {
         Sudoku sudoku = generator.generate();
         Sudoku puzzle = puzzleGenerator.generate(sudoku);
         if (puzzleValidator.validate(sudoku, puzzle)) {
           ret.add(new PuzzleGroup(sudoku, puzzle));
           pb.step();
         } else {
-          // TODO Refactor the code in order to not assign to this loop counter from within the loop body.
           i--;
         }
+        i++;
       }
     }
-    if (null == outputFileName) {
-      outputFileName = "puzzles.json";
-    }
-    try (Writer writer = new FileWriter(outputFileName)) {
-      new Gson().toJson(ret, writer);
-    } catch (IOException e) {
-      System.err.println(e.getMessage());
-      System.exit(500);
-    }
+    new SudokuWriter().write(outputFileName, ret);
   }
 }

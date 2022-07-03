@@ -11,7 +11,7 @@ import org.apache.commons.cli.*;
 import org.artiste.sudoku.generator.ClassicGenerator;
 import org.artiste.sudoku.generator.Generator;
 import org.artiste.sudoku.model.Sudoku;
-import org.artiste.sudoku.puzzle.PuzzleGenerator;
+import org.artiste.sudoku.puzzle.EasyPuzzleGenerator;
 import org.artiste.sudoku.puzzle.PuzzleValidator;
 
 public class App {
@@ -39,17 +39,18 @@ public class App {
                                       String outputFileName,
                                       Level level) {
     Generator generator = new ClassicGenerator();
-    PuzzleGenerator puzzleGenerator = new PuzzleGenerator();
+    EasyPuzzleGenerator puzzleGenerator = new EasyPuzzleGenerator();
     PuzzleValidator puzzleValidator = new PuzzleValidator();
     List<PuzzleGroup> ret = new ArrayList<>();
     try (ProgressBar pb = new ProgressBar("Progress", 100)) {
       for (int i = 0; i < numberOfPuzzles; i++) {
         Sudoku sudoku = generator.generate();
-        Sudoku puzzle = puzzleGenerator.generate(sudoku, level);
+        Sudoku puzzle = puzzleGenerator.generate(sudoku);
         if (puzzleValidator.validate(sudoku, puzzle)) {
           ret.add(new PuzzleGroup(sudoku, puzzle));
           pb.step();
         } else {
+          // TODO Refactor the code in order to not assign to this loop counter from within the loop body.
           i--;
         }
       }

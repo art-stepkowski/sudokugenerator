@@ -106,4 +106,11 @@ public class Sudoku {
   public int getCellValue(CellCoordinates cellCoordinates) {
     return cells[cellCoordinates.getRow()][cellCoordinates.getColumn()];
   }
+
+  public long getNumberOfEmptyCells() {
+    return Arrays.stream(cells)
+                 .flatMapToInt(Arrays::stream)
+                 .filter(c -> c == 0)
+                 .count();
+  }
 }

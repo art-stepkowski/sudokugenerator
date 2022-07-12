@@ -1,8 +1,12 @@
 plugins {
+    id 'java'
     id 'application'
     id "io.freefair.lombok" version "6.4.3"
     id 'info.solidsoft.pitest' version '1.7.4'
 }
+
+group 'org.artiste'
+version '1.0.0'
 
 repositories {
     mavenCentral()
@@ -16,20 +20,6 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.22.0'
 }
 
-jar {
-    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
-
-    manifest {
-        attributes 'Main-Class': 'org.artiste.sudoku.App'
-    }
-    doFirst {
-        from {
-            configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-        }
-    }
-
-}
-
 testing {
     suites {
         test {
@@ -38,8 +28,16 @@ testing {
     }
 }
 
-application {
-    mainClass = 'org.artiste.sudoku.App'
+mainClassName = 'org.artiste.sudoku.App'
+
+task fatJar(type: Jar) {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    manifest {
+        attributes 'Main-Class': "${mainClassName}"
+    }
+    archiveBaseName = "${rootProject.name}"
+    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
 
 pitest {

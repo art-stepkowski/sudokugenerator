@@ -2,7 +2,6 @@ package org.artiste.sudoku.puzzle;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.artiste.sudoku.model.CellCoordinates;
 import org.artiste.sudoku.model.Sudoku;
@@ -36,7 +35,7 @@ public class PuzzleValidator {
     List<Integer> availableNumbers = IntStream.of(1, 2, 3, 4, 5, 6, 7, 8, 9)
                                               .filter(i -> !distinctNeighbours.contains(i))
                                               .boxed()
-                                              .collect(Collectors.toList());
+                                              .toList();
     for (Integer availableNumber : availableNumbers) {
       Sudoku testSudoku = new Sudoku(puzzle);
       testSudoku.fillCell(maxEmptyNeighboursCoordinates, availableNumber);

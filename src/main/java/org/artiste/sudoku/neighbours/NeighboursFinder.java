@@ -3,7 +3,6 @@ package org.artiste.sudoku.neighbours;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
 import org.artiste.sudoku.model.BoxManager;
 import org.artiste.sudoku.model.CellCoordinates;
@@ -15,14 +14,14 @@ public class NeighboursFinder {
     Set<Integer> ret = new HashSet<>();
     ret.addAll(Arrays.stream(sudoku.getRow(cellCoordinates.getRow()))
                      .boxed()
-                     .collect(Collectors.toList()));
+                     .toList());
     ret.addAll(Arrays.stream(sudoku.getColumn(cellCoordinates.getColumn()))
                      .boxed()
-                     .collect(Collectors.toList()));
+                     .toList());
     int boxIndex = BoxManager.findBoxIndex(cellCoordinates.getRow(), cellCoordinates.getColumn());
     ret.addAll(Arrays.stream(sudoku.getBox(boxIndex))
                      .boxed()
-                     .collect(Collectors.toList()));
+                     .toList());
     return ret;
   }
 
